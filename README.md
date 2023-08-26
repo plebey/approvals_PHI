@@ -1,0 +1,3 @@
+- install packages by ```pip install -r requirements.txt```
+- add private keys to ```private_keys.txt```
+- run script ```python main.py```

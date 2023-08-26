@@ -14,7 +14,7 @@ def usdc_approve(private_key, rpc, spender, amount):
     address = acc.address
 
     decimals = 10**6
-    amount = amount * decimals
+    amount = int(float(amount) * decimals)
 
     contract_instance = w3.eth.contract(address=Web3.to_checksum_address('0x2791bca1f2de4661ed88a30c99a7a9449aa84174'), abi=abi_read('abies/USDC_polygon.json'))
     tx = contract_instance.functions.approve(
@@ -34,13 +34,14 @@ def usdc_approve(private_key, rpc, spender, amount):
 
 
 if __name__ == '__main__':
-    amount = 1
     spender = '0xBeb09beB09e95E6FEBf0d6EEb1d0D46d1013CC3C'
     with open('private_keys.txt') as file:
         keys = [key.strip() for key in file]
+    amount = input("approve amount (USDC): ")
     tx_count = input("num of tx: ")
-    for i in range(int(tx_count)):
-        tx_hash = usdc_approve(keys[0], RPC['polygon'], spender, amount)
-        print(f"tx #{i+1}: {tx_hash}")
+    for key in keys:
+        for i in range(int(tx_count)):
+            tx_hash = usdc_approve(key, RPC['polygon'], spender, amount)
+            print(f"tx #{i+1}: {tx_hash}")
 
 
